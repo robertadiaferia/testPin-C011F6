@@ -74,6 +74,7 @@ static void MX_I2C1_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	//prova2
 
   /* USER CODE END 1 */
 
@@ -108,6 +109,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+	  // prova
 
     /* USER CODE BEGIN 3 */
   }

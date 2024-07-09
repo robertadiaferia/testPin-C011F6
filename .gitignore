@@ -50,3 +50,11 @@ release
 *.su
 *.idb
 *.pdb
+/Doc
+
+# MDK-ARM (Keil)
+/*.scvd
+/*.uvoptx
+/obj
+/DebugConfig
+/testPin-C011F6.uvguix.diaferia
