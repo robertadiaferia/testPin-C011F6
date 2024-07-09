@@ -53,8 +53,8 @@ release
 /Doc
 
 # MDK-ARM (Keil)
-/*.scvd
-/*.uvoptx
+*.scvd
+*.uvoptx
 /obj
 /DebugConfig
 /testPin-C011F6.uvguix.diaferia
