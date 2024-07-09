@@ -21,6 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdarg.h>
 
 /* USER CODE END Includes */
 
@@ -31,6 +32,13 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+//#if TRACE_UART==1
+
+extern int uart_printf(const char *msg, ...);
+extern int uart_vprintf(const char *msg, va_list ap);
+
+#define trace_printf uart_printf
+#define trace_vprintf uart_vprintf
 
 /* USER CODE END PD */
 
@@ -98,6 +106,7 @@ int main(void)
   MX_GPIO_Init();
   MX_ADC1_Init();
   MX_USART1_UART_Init();
+	trace_printf("ciao!!");
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
@@ -108,8 +117,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		  HAL_Delay(2000);
+		//trace_printf("ciao!!");
     /* USER CODE END WHILE */
-	  // prova
 
     /* USER CODE BEGIN 3 */
   }

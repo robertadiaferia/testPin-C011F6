@@ -22,6 +22,7 @@
 "testpin-c011f6\stm32c0xx_hal_uart.o"
 "testpin-c011f6\stm32c0xx_hal_uart_ex.o"
 "testpin-c011f6\system_stm32c0xx.o"
+"testpin-c011f6\uart_trace.o"
 --strict --scatter "testPin-C011F6\testPin-C011F6.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
