@@ -1,0 +1,28 @@
+--cpu Cortex-M0+
+"testpin-c011f6\startup_stm32c011xx.o"
+"testpin-c011f6\main.o"
+"testpin-c011f6\stm32c0xx_it.o"
+"testpin-c011f6\stm32c0xx_hal_msp.o"
+"testpin-c011f6\stm32c0xx_hal.o"
+"testpin-c011f6\stm32c0xx_hal_adc.o"
+"testpin-c011f6\stm32c0xx_hal_adc_ex.o"
+"testpin-c011f6\stm32c0xx_hal_dma.o"
+"testpin-c011f6\stm32c0xx_hal_dma_ex.o"
+"testpin-c011f6\stm32c0xx_hal_rcc.o"
+"testpin-c011f6\stm32c0xx_hal_rcc_ex.o"
+"testpin-c011f6\stm32c0xx_hal_flash.o"
+"testpin-c011f6\stm32c0xx_hal_flash_ex.o"
+"testpin-c011f6\stm32c0xx_hal_gpio.o"
+"testpin-c011f6\stm32c0xx_hal_pwr.o"
+"testpin-c011f6\stm32c0xx_hal_pwr_ex.o"
+"testpin-c011f6\stm32c0xx_hal_cortex.o"
+"testpin-c011f6\stm32c0xx_hal_exti.o"
+"testpin-c011f6\stm32c0xx_hal_i2c.o"
+"testpin-c011f6\stm32c0xx_hal_i2c_ex.o"
+"testpin-c011f6\stm32c0xx_hal_uart.o"
+"testpin-c011f6\stm32c0xx_hal_uart_ex.o"
+"testpin-c011f6\system_stm32c0xx.o"
+--strict --scatter "testPin-C011F6\testPin-C011F6.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "testPin-C011F6.map" -o testPin-C011F6\testPin-C011F6.axf
