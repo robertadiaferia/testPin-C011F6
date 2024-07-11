@@ -61,8 +61,12 @@ void Error_Handler(void);
 #define Button_GPIO_Port GPIOF
 #define XSHUT1_Pin GPIO_PIN_1
 #define XSHUT1_GPIO_Port GPIOA
+#define GPIO2_Pin GPIO_PIN_4
+#define GPIO2_GPIO_Port GPIOA
 #define XSHUT2_Pin GPIO_PIN_5
 #define XSHUT2_GPIO_Port GPIOA
+#define GPIO3_Pin GPIO_PIN_6
+#define GPIO3_GPIO_Port GPIOA
 #define XSHUT3_Pin GPIO_PIN_7
 #define XSHUT3_GPIO_Port GPIOA
 #define Joystick_Pin GPIO_PIN_8
