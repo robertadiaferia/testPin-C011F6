@@ -338,7 +338,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_HAL_DRIVER,STM32C011xx</Define>
+              <Define>USE_HAL_DRIVER,STM32C011xx, TRACE_UART = 1</Define>
               <Undefine></Undefine>
               <IncludePath>../Core/Inc;../Drivers/STM32C0xx_HAL_Driver/Inc;../Drivers/STM32C0xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32C0xx/Include;../Drivers/CMSIS/Include</IncludePath>
             </VariousControls>

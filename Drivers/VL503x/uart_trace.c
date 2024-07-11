@@ -7,9 +7,9 @@
 
 #ifndef TRACE_UART
 /**
- * Force TRACE_UART to 0 by default (if not defined in the project)
+ * Force TRACE_UART to 0 by default (if not defined in the .uvprojx)
  */
-#define TRACE_UART  1
+#define TRACE_UART  0
 #endif
 
 #if TRACE_UART
@@ -34,7 +34,6 @@ int uart_vprintf(const char *msg, va_list ap){
     InUsed|=1;
     n=vsnprintf(uart_buffer, sizeof(uart_buffer),  msg, ap);
     status = HAL_UART_Transmit_DMA(&huart1, (uint8_t*)uart_buffer, n );
-    //status = HAL_UART_Transmit(&huart1, (uint8_t*)uart_buffer, n, 100 );
     if( status ){
         UartErrCnt++;
         InUsed=0;

@@ -32,13 +32,15 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#if TRACE_UART==1
+#if TRACE_UART
 
 extern int uart_printf(const char *msg, ...);
 extern int uart_vprintf(const char *msg, va_list ap);
 
 #define trace_printf uart_printf
 #define trace_vprintf uart_vprintf
+
+#endif
 
 /* USER CODE END PD */
 
@@ -122,7 +124,6 @@ int main(void)
   while (1)
   {
 		HAL_Delay(2000);
-		trace_printf("ciao!!");
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
