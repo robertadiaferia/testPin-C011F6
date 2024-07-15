@@ -30,6 +30,7 @@
 "testpin-c011f6\vl53l0x_api_strings.o"
 "testpin-c011f6\vl53l0x_platform_log.o"
 "testpin-c011f6\vl53l0x_platform.o"
+"testpin-c011f6\stm32c011f6ux.o"
 --strict --scatter "testPin-C011F6\testPin-C011F6.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

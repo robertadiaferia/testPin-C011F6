@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32C011xx, TRACE_UART = 1</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32C0xx_HAL_Driver/Inc;../Drivers/STM32C0xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32C0xx/Include;../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32C0xx_HAL_Driver/Inc;../Drivers/STM32C0xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32C0xx/Include;../Drivers/CMSIS/Include;..\Drivers\VL503x;..\Drivers\BSP</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -618,6 +618,21 @@
               <FileName>vl53l0x_platform.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Drivers\VL503x\vl53l0x_platform.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers/BSP</GroupName>
+          <Files>
+            <File>
+              <FileName>STM32C011F6Ux.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\BSP\STM32C011F6Ux.c</FilePath>
+            </File>
+            <File>
+              <FileName>STM32C011F6Ux.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Drivers\BSP\STM32C011F6Ux.h</FilePath>
             </File>
           </Files>
         </Group>
