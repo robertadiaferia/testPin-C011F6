@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright © 2015, STMicroelectronics International N.V.
+Copyright ï¿½ 2015, STMicroelectronics International N.V.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -41,6 +41,9 @@ extern "C" {
 
 
 #if TRACE_UART
+#include <stdarg.h>
+extern int uart_printf(const char *msg, ...);
+extern int uart_vprintf(const char *msg, va_list ap);
 #define trace_printf uart_printf
 #endif
 

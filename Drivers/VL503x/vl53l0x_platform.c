@@ -4,6 +4,7 @@
 
 #include "stm32c0xx_hal.h"
 #include <string.h>
+//#include "uart_trace.c"
 
 #define I2C_TIME_OUT_BASE   10
 #define I2C_TIME_OUT_BYTE   1
@@ -41,6 +42,7 @@ int _I2CWrite(VL53L0X_DEV Dev, uint8_t *pdata, uint32_t count) {
     int i2c_time_out = I2C_TIME_OUT_BASE+ count* I2C_TIME_OUT_BYTE;
 
     status = HAL_I2C_Master_Transmit(Dev->I2cHandle, Dev->I2cDevAddr, pdata, count, i2c_time_out);
+    //trace_printf("_I2CWrite status %d \r\n", status);
     if (status) {
         //VL6180x_ErrLog("I2C error 0x%x %d len", dev->I2cAddr, len);
         //XNUCLEO6180XA1_I2C1_Init(&hi2c1);
@@ -186,6 +188,7 @@ VL53L0X_Error VL53L0X_RdWord(VL53L0X_DEV Dev, uint8_t index, uint16_t *data) {
 
     VL53L0X_GetI2cBus();
     status_int = _I2CWrite(Dev, &index, 1);
+    trace_printf("VL53L0X_RdWord: _I2CWrite status %d \r\n",status_int);
 
     if( status_int ){
         Status = VL53L0X_ERROR_CONTROL_INTERFACE;

@@ -69,8 +69,7 @@ VL53L0X_Dev_t VL53L0XDevs[]={
 		{.Id=STM32C011F6U_SENSOR_3, .DevLetter='s2', .I2cHandle=&hi2c1, .I2cDevAddr=0x52},
 };
 
-
-int status;
+int nDevPresent=0;
 
 /* USER CODE END PV */
 
@@ -85,6 +84,7 @@ static void MX_I2C1_Init(void);
 /* USER CODE BEGIN PFP */
 
 int STM32C011F6_ResetId(int DevNo,int state);
+int ResetSensors(void);
 int DetectSensors(void);
 
 /* USER CODE END PFP */
@@ -139,9 +139,8 @@ int main(void)
 	while (1)
 	{
 		int i;
-		uint16_t Id;
 		int status;
-		int FinalAddress;
+		int nDev;
 
 		/* Reset all */
 		for (i = 0; i < 3; i++){
@@ -151,6 +150,10 @@ int main(void)
 				//trace_printf("s%d device reset\r\n", i);
 			}
 		}
+		status = ResetSensors();
+		nDev = DetectSensors();
+		trace_printf("ciao!\r\n");
+	
 
 
 
@@ -463,8 +466,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /**
- * Set Reset XSHUT Pin of a given "id" device
- * @param  DevNo The device number use  @ref XNUCLEO53L0A1_dev_e. Char 't' 'c' 'r' can also be used
+ * Set/Reset XSHUT Pin of a given "id" device
+ * @param  DevNo: The device number use  @ref XNUCLEO53L0A1_dev_e. Char 't' 'c' 'r' can also be used
+ * @param state: Status of XSHUT Pin (1 high, 0 low)
  * @return 0 on success
  */
 int STM32C011F6_ResetId(int DevNo, int state)
@@ -522,74 +526,93 @@ int STM32C011F6_ResetId(int DevNo, int state)
 }
 
 /**
- * Reset all sensor then do presence detection
+ * Reset all sensors XSHUT Pin
+ */
+int ResetSensors(void)
+{
+	int i;
+	int result;
+
+	/* Reset all */
+	for (i = 0; i < 3; i++){
+		result &= STM32C011F6_ResetId(i, 0);
+	}
+
+	return result; /* 0 success, 1 fail */
+}
+/**
+ *  then do presence detection
  *
  * All present devices are data initiated and assigned to their final I2C address
  * @return
  */
 int DetectSensors(void)
 {
-//	/* detect all sensors (even on-board)*/
-//	for (i = 0; i < 3; i++) {
-//		VL53L0X_Dev_t *pDev;
-//		pDev = &VL53L0XDevs[i];
-//		pDev->I2cDevAddr = 0x52;
-//		pDev->Present = 0;
-//		status = XNUCLEO53L0A1_ResetId( pDev->Id, 1);
-//		HAL_Delay(2);
-//		FinalAddress=0x52+(i+1)*2;
-//
-//
-//		do {
-//			/* Set I2C standard mode (400 KHz) before doing the first register access */
-//			if (status == VL53L0X_ERROR_NONE)
-//				status = VL53L0X_WrByte(pDev, 0x88, 0x00);
-//
-//			/* Try to read one register using default 0x52 address */
-//			status = VL53L0X_RdWord(pDev, VL53L0X_REG_IDENTIFICATION_MODEL_ID, &Id);
-//			//status = VL53L0X_RdWord(pDev, 0x51, &Id);
-//			if (status) {
-//				debug_printf("#%d Read id fail\n", i);
-//				break;
-//			}
-//			if (Id == 0xEEAA) {
-//				/* Sensor is found => Change its I2C address to final one */
-//				status = VL53L0X_SetDeviceAddress(pDev,FinalAddress);
-//				if (status != 0) {
-//					debug_printf("#i VL53L0X_SetDeviceAddress fail\n", i);
-//					break;
-//				}
-//				pDev->I2cDevAddr = FinalAddress;
-//				/* Check all is OK with the new I2C address and initialize the sensor */
-//				status = VL53L0X_RdWord(pDev, VL53L0X_REG_IDENTIFICATION_MODEL_ID, &Id);
-//				if (status != 0) {
-//					debug_printf("#i VL53L0X_RdWord fail\n", i);
-//					break;
-//				}
-//
-//				status = VL53L0X_DataInit(pDev);
-//				if( status == 0 ){
-//					pDev->Present = 1;
-//				}
-//				else{
-//					debug_printf("VL53L0X_DataInit %d fail\n", i);
-//					break;
-//				}
-//				trace_printf("VL53L0X %d Present and initiated to final 0x%x\n", pDev->Id, pDev->I2cDevAddr);
-//				nDevPresent++;
-//				nDevMask |= 1 << i;
-//				pDev->Present = 1;
-//			}
-//			else {
-//				debug_printf("#%d unknown ID %x\n", i, Id);
-//				status = 1;
-//			}
-//		} while (0);
-//		/* if fail r can't use for any reason then put the  device back to reset */
-//		if (status) {
-//			XNUCLEO53L0A1_ResetId(i, 0);
-//		}
-//	}
+    int i;
+    uint16_t Id;
+    int status;
+    int FinalAddress;
+    nDevPresent = 0;
+
+	/* detect all sensors (even on-board)*/
+	for (i = 0; i < 3; i++) {
+		VL53L0X_Dev_t *pDev;
+		pDev = &VL53L0XDevs[i];
+		pDev->I2cDevAddr = 0x52;
+		pDev->Present = 0;
+		status = STM32C011F6_ResetId( pDev->Id, 1); /* enable XSHUTs */
+		HAL_Delay(2);
+		FinalAddress=0x52+(i+1)*2;
+
+		do {
+			/* Set I2C standard mode (400 KHz) before doing the first register access */
+			if (status == VL53L0X_ERROR_NONE)
+				status = VL53L0X_WrByte(pDev, 0x88, 0x00);
+
+			/* Try to read one register using default 0x52 address */
+			status = VL53L0X_RdWord(pDev, VL53L0X_REG_IDENTIFICATION_MODEL_ID, &Id);
+			if (status) {
+				trace_printf("#%d Read id fail\n", i);
+				//break;
+			}
+			if (Id == 0xEEAA) {
+				/* Sensor is found => Change its I2C address to final one */
+				status = VL53L0X_SetDeviceAddress(pDev,FinalAddress);
+				if (status != 0) {
+					trace_printf("#i VL53L0X_SetDeviceAddress fail\n", i);
+					break;
+				}
+				pDev->I2cDevAddr = FinalAddress;
+				/* Check all is OK with the new I2C address and initialize the sensor */
+				status = VL53L0X_RdWord(pDev, VL53L0X_REG_IDENTIFICATION_MODEL_ID, &Id);
+				if (status != 0) {
+					trace_printf("#i VL53L0X_RdWord fail\n", i);
+					break;
+				}
+
+				status = VL53L0X_DataInit(pDev);
+				if( status == 0 ){
+					pDev->Present = 1;
+				}
+				else{
+					trace_printf("VL53L0X_DataInit %d fail\n", i);
+					break;
+				}
+				trace_printf("VL53L0X %d Present and initiated to final 0x%x\n", pDev->Id, pDev->I2cDevAddr);
+				nDevPresent++;
+				//nDevMask |= 1 << i;
+				pDev->Present = 1;
+			}
+			else {
+				trace_printf("#%d unknown ID %x\n", i, Id);
+				status = 1;
+			}
+		} while (0);
+		/* if fail r can't use for any reason then put the  device back to reset */
+		if (status) {
+			STM32C011F6_ResetId(i, 0);
+		}
+	}
 //	/* Display detected sensor(s) */
 //	if( SetDisplay ){
 //		for(i=0; i<3; i++){
@@ -602,8 +625,7 @@ int DetectSensors(void)
 //		HAL_Delay(1000);
 //	}
 //
-//	return nDevPresent;
-
+	return nDevPresent;
 }
 
 /* USER CODE END 4 */
